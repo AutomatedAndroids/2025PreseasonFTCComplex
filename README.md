@@ -1,7 +1,7 @@
 ## Welcome!
 
 ### About
-Zihe 
+Zi
 FtcRobotController2024 uses the same software architecture as FRC Programming, covering Pose-based Trajectory for the FTC INTO THE DEEP (2024-2025) competition season.
 
 Powered with WPILib and combined elements from the FTC SDK and FTCLib, this repository has built-in Path Planning and Following, with Odometry and Apriltag Vision Pose Estmation brought specifically to FTC Autonomous Modes :)

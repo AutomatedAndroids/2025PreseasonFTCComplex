@@ -6,10 +6,6 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import subsystems.MecanumDriveSubsystem;
-import util.OldDriverFilter2;
-import util.filters.DeadbandFilter;
-import util.filters.FilterSeries;
-import util.filters.ScaleFilter;
 
 public class DriverJoystickCommand extends CommandBase {
 
@@ -87,29 +83,6 @@ public class DriverJoystickCommand extends CommandBase {
         double xSpeed = xSpdSupplier.getAsDouble();
         double ySpeed = ySpdSupplier.getAsDouble();
         double rotationSpeed = rotationSpdSupplier.getAsDouble();
-
-        OldDriverFilter2 xFilter = new OldDriverFilter2(
-                0.05,//ControllerConstants.kDeadband,
-                0.05,//kMinimumMotorOutput,
-                5,//kTeleDriveMaxSpeedMetersPerSecond,
-                0.11765,//kDriveAlpha,
-                5,//kTeleMaxAcceleration,
-                -5);//kTeleMaxDeceleration);
-        OldDriverFilter2 yFilter = new OldDriverFilter2(
-                0.05,//ControllerConstants.kDeadband,
-                0.05,//kMinimumMotorOutput,
-                5,//kTeleDriveMaxSpeedMetersPerSecond,
-                0.11765,//kDriveAlpha,
-                5,//kTeleMaxAcceleration,
-                -5);//kTeleMaxDeceleration);
-        FilterSeries turningFilter = new FilterSeries(
-                new DeadbandFilter(0.1),//ControllerConstants.kRotationDeadband),
-                new ScaleFilter(12.566)//kTeleDriveMaxAngularSpeedRadiansPerSecond)
-        );
-
-        double filteredXSpeed = xFilter.calculate(xSpeed);
-        double filteredYSpeed = yFilter.calculate(ySpeed);
-        double filteredTurningSpeed;
 
         // Retrieve current heading and control mode states
         double currentHeading = currentHeadingSupplier.getAsDouble();

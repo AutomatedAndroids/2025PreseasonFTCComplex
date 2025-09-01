@@ -41,11 +41,6 @@ import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import util.DashServer;
-import util.OldDriverFilter2;
-import util.RobotDataServer;
-import util.filters.DeadbandFilter;
-import util.filters.FilterSeries;
-import util.filters.ScaleFilter;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
@@ -229,6 +224,12 @@ public class MecanumDriveSubsystem extends SubsystemBase
     MecanumDriveWheelSpeeds askedWheelSpeeds = new MecanumDriveWheelSpeeds();
     public void driveBySpeedEvent(MecanumDriveWheelSpeeds mecanumDriveWheelSpeeds)
     {
+        if(telemetryEnable) {
+            telemetry.addData("Cmd FL", "%.2f", mecanumDriveWheelSpeeds.frontLeftMetersPerSecond);
+            telemetry.addData("Cmd FR", "%.2f", mecanumDriveWheelSpeeds.frontRightMetersPerSecond);
+            telemetry.addData("Cmd BL", "%.2f", mecanumDriveWheelSpeeds.rearLeftMetersPerSecond);
+            telemetry.addData("Cmd BR", "%.2f", mecanumDriveWheelSpeeds.rearRightMetersPerSecond);
+        }
         mecanumDriveWheelSpeeds.desaturate(DriveConstants.MAX_VELOCITY);
         frontLeft.set( mecanumDriveWheelSpeeds.frontLeftMetersPerSecond);/// DriveConstants.MAX_VELOCITY);
         frontRight.set( mecanumDriveWheelSpeeds.frontRightMetersPerSecond);/// DriveConstants.MAX_VELOCITY);

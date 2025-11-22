@@ -4,8 +4,6 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import subsystems.IntakeSubsystem;
-
 /**
  * A simple command that grabs a stone with the {@link IntakeSubsystem}.  Written explicitly for
  * pedagogical purposes. Actual code should inline a command this simple with {@link

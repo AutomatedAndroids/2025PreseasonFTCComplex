@@ -8,11 +8,8 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 //import com.arcrobotics.ftclib.trajectory.TrapezoidProfile;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.json.JSONObject;
 
-import subsystems.IntakeSubsystem;
 //import subsystems.MecanumDriveSubsystem;
-import subsystems.MecanumDriveSubsystem;
 import util.RobotDataServer;
 
 public class AutoSequentialCommand extends SequentialCommandGroup {

@@ -2,8 +2,6 @@ package commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import subsystems.IntakeSubsystem;
-
 /**
  * A simple command that releases a stone with the {@link IntakeReleaseCommand}.  Written explicitly for
  * pedagogical purposes. Actual code should inline a command this simple with {@link

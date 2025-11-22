@@ -6,8 +6,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-import subsystems.MecanumDriveSubsystem;
-
 public class ApriltagCommand extends CommandBase {
     private MecanumDriveSubsystem subsystem;
     /**

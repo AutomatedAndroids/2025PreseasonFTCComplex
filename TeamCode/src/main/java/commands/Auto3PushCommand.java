@@ -2,8 +2,6 @@ package commands;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import subsystems.IntakeSubsystem;
-import subsystems.MecanumDriveSubsystem;
 
 public class Auto3PushCommand extends SequentialCommandGroup 
 {

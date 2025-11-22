@@ -82,7 +82,7 @@ public class BasicTeleOp extends CommandOpMode {
 
         new GamepadButton(driver, GamepadKeys.Button.B)
                 .whenPressed(new InstantCommand(shooterSubsys::feed, shooterSubsys))
-                .whenReleased(new InstantCommand(shooterSubsys::stopFeeding, shooterSubsys))
+                .whenReleased(new InstantCommand(shooterSubsys::stopFeeding, shooterSubsys));
 
         // --- OPERATOR ---
         new GamepadButton(operator, GamepadKeys.Button.RIGHT_BUMPER)

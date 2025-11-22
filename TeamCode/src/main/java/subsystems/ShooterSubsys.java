@@ -56,11 +56,11 @@ public class ShooterSubsys extends SubsystemBase{
         // 2. Set the power. This acts as the maximum power the PID controller
         // is allowed to use to reach and maintain the target velocity.
         // Set it to 1.0 to give the controller full authority.
-        shooter.set(0.75);
+        shooter.set(0.85);
     }
 
     public void shoot_close() {
-        shooter.set(0.68);
+        shooter.set(0.65);
     }
 
 

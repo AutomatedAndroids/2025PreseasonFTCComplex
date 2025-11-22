@@ -22,6 +22,7 @@ public class FeederCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        shooterSubsys.stopShooting();
+        shooterSubsys.stopFeeding();
+        shooterSubsys.stopFlywheels();
     }
 }

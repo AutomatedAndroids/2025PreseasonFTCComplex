@@ -19,6 +19,7 @@ public class ShooterCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        shooterSubsys.stopShooting();
+        shooterSubsys.stopFlywheels();
+        shooterSubsys.stopFeeding();
     }
 }

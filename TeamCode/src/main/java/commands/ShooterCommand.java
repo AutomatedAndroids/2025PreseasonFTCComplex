@@ -14,7 +14,7 @@ public class ShooterCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        shooterSubsys.spin_shoot();
+        shooterSubsys.shoot_close();
     }
 
     @Override

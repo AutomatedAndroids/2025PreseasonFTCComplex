@@ -7,7 +7,9 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -42,7 +44,7 @@ public class BasicTeleOp extends CommandOpMode {
         Servo sortRight = hardwareMap.get(Servo.class, "sortRight");
 
         CRServo feederServo = new CRServo(hardwareMap, "feeder");
-        Motor shooterMotor = new Motor(hardwareMap, "shooter");
+        MotorEx shooterMotor = new MotorEx(hardwareMap, "shooter");
 
         UniversalGyro gyro = new UniversalGyro(hardwareMap, "imu");
         gyro.init();
@@ -67,47 +69,41 @@ public class BasicTeleOp extends CommandOpMode {
 
         // 5. CONFIGURE BUTTON BINDINGS
         configureButtons();
-
         telemetry.addData("Status", "Initialized");
         telemetry.update();
     }
 
     private void configureButtons() {
         // --- DRIVER ---
-        new GamepadButton(driver, GamepadKeys.Button.A)
-                .whenPressed(new InstantCommand(driveSubsys::resetGyro, driveSubsys));
-
-        new GamepadButton(driver, GamepadKeys.Button.B)
-                .whenPressed(new InstantCommand(driveSubsys::toggleFieldCentric, driveSubsys));
 
         new GamepadButton(driver, GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(new InstantCommand(() -> driveSubsys.setMaxSpeed(1.0)))
                 .whenReleased(new InstantCommand(() -> driveSubsys.setMaxSpeed(0.5)));
 
+        new GamepadButton(driver, GamepadKeys.Button.B)
+                .whenPressed(new InstantCommand(shooterSubsys::feed, shooterSubsys))
+                .whenReleased(new InstantCommand(shooterSubsys::stopFeeding, shooterSubsys))
+
         // --- OPERATOR ---
-        new GamepadButton(operator, GamepadKeys.Button.LEFT_BUMPER)
+        new GamepadButton(operator, GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(new InstantCommand(intakeSubsys::turnOnIntake, intakeSubsys));
+
 
         new GamepadButton(operator, GamepadKeys.Button.X)
                 .whenPressed(new InstantCommand(intakeSubsys::turnOffIntake, intakeSubsys));
 
-        // Shooter uses Velocity Control now
-        new GamepadButton(operator, GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(new InstantCommand(shooterSubsys::spin_shoot, shooterSubsys));
-
         new GamepadButton(operator, GamepadKeys.Button.Y)
-                .whenPressed(new InstantCommand(shooterSubsys::stopShooting, shooterSubsys));
-
-        new GamepadButton(operator, GamepadKeys.Button.A)
-                .whileHeld(new FeederCommand(shooterSubsys));
-
-        new GamepadButton(operator, GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(new InstantCommand(() -> intakeSubsys.sort(false), intakeSubsys));
-
-        new GamepadButton(operator, GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(new InstantCommand(() -> intakeSubsys.sort(true), intakeSubsys));
+                .whenPressed(new InstantCommand(intakeSubsys::turnOffIntake));
 
         new GamepadButton(operator, GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new InstantCommand(intakeSubsys::sort, intakeSubsys));
+                .whenPressed(new InstantCommand(shooterSubsys::shoot_close, shooterSubsys));
+
+        new GamepadButton(operator, GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(new InstantCommand(shooterSubsys::shoot_far));
+
+        new GamepadButton(operator, GamepadKeys.Button.LEFT_STICK_BUTTON)
+                .whenPressed(new InstantCommand(shooterSubsys::stopFlywheels));
+
+
     }
 }

@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ShooterSubsys extends SubsystemBase{
 
     private CRServo feeder;
-    private Motor shooter;
+    private MotorEx shooter;
     private Telemetry telemetry;
 
     // --- CONFIGURATION ---
@@ -18,52 +18,69 @@ public class ShooterSubsys extends SubsystemBase{
     private static final double TICKS_PER_REV = 28.0;
 
     // The RPM you want to reach
-    private static final double TARGET_RPM = 1000;
+    private static final double TARGET_RPM = 1;
 
     // Calculate Ticks Per Second: (RPM / 60) * TicksPerRev
     private static final double TARGET_VELOCITY = (TARGET_RPM / 60.0) * TICKS_PER_REV;
 
-    public ShooterSubsys(CRServo feeder, Motor shooter, Telemetry telemetry) {
+    public ShooterSubsys(CRServo feeder, MotorEx shooter, Telemetry telemetry) {
         this.feeder = feeder;
         this.shooter = shooter;
         this.telemetry = telemetry;
 
-        // Configure Motor for Velocity Control
-        this.shooter.setRunMode(Motor.RunMode.VelocityControl);
 
-        // Zero Power Behavior (Float is usually better for high-speed flywheels)
-        this.shooter.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+        shooter.setRunMode(Motor.RunMode.RawPower);
 
-        // Note: If the motor vibrates or doesn't reach speed, you may need to tune PIDF.
-        // this.shooter.setVeloCoefficients(0.05, 0, 0); // Example tuning if needed
+
+//        // Configure Motor for Velocity Control
+//
+//        // Zero Power Behavior (Float is usually better for high-speed flywheels)
+//        this.shooter.setRunMode(Motor.RunMode.VelocityControl);
+//        this.shooter.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+//        // Note: If the motor vibrates or doesn't reach speed, you may need to tune PIDF.
+//        this.shooter.setVeloCoefficients(0.05, 0, 0); Example tuning if needed
     }
 
-    public void spin_shoot() {
-        // In VelocityControl mode, .set() takes Ticks-Per-Second, not Power (0-1)
-        shooter.set(TARGET_VELOCITY);
+    public void shoot_far() {
+        // Re-calculating constants inside the method is often redundant if they are
+        // already class constants, but we'll use your local calculation logic for now.
 
+        // Note: Use your class constants (TARGET_VELOCITY) if possible to avoid recalculation.
+
+
+        // 1. Set the desired speed. The motor's internal PID controller
+        // will now try to hit this velocity.
+        // --- FIX IS HERE ---
+//        shooter.setVelocity(TARGET_VELOCITY);
+
+        // 2. Set the power. This acts as the maximum power the PID controller
+        // is allowed to use to reach and maintain the target velocity.
+        // Set it to 1.0 to give the controller full authority.
+        shooter.set(0.75);
     }
+
+    public void shoot_close() {
+        shooter.set(0.68);
+    }
+
 
     public void feed() {
         feeder.set(1);
     }
 
-    public void stopShooting() {
-        shooter.set(0);
+    public void stopFeeding() {
         feeder.set(0);
-        shooter.stopMotor(); // Ensures velocity is cleared
+        // Ensures velocity is cleared
+    }
+
+    public void stopFlywheels() {
+        shooter.set(0);
+        // Ensures velocity is cleared
     }
 
     @Override
     public void periodic() {
         super.periodic();
-        double[] velocityTicksPerSec = shooter.getVeloCoefficients();
-
-        // Convert to RPM: (Velocity / 28) * 60
-        double currentRPM = (velocityTicksPerSec[1] / 28.0) * 60;
-
-        // Display on Driver Station
-        telemetry.addData("Raw Velocity coeffic", velocityTicksPerSec[1]);
-        telemetry.addData("Current RPM ig", currentRPM);
+        telemetry.addData("Is this even running", "yes");
     }
 }
